@@ -1,0 +1,27 @@
+
+package com.travixa.controllers;
+
+import com.travixa.dto.dashboard.DashboardResponse;
+import com.travixa.services.dashboard.DashboardService;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+@RestController
+@RequestMapping("/api/dashboard")
+public class DashboardController {
+
+    private final DashboardService dashboardService;
+
+    public DashboardController(DashboardService dashboardService) {
+        this.dashboardService = dashboardService;
+    }
+
+    @GetMapping("/overview")
+    @PreAuthorize("isAuthenticated()")
+    public DashboardResponse getOverview(Authentication authentication) {
+        return dashboardService.getOverview(authentication);
+    }
+}
